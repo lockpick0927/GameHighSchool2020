@@ -24,12 +24,13 @@ public class PlayerController : MonoBehaviour
 
         float FireAxis = Input.GetAxis("Fire1");
         
-        Debug.Log(Times);
         Times--;
+        /*
         if (FireAxis > Times)
         {
             Die();
         }
+        */
         /*
         if (Input.GetKey(KeyCode.LeftArrow))
         {
