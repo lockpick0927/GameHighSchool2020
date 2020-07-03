@@ -22,8 +22,8 @@ public class BulletSpawner : MonoBehaviour
             if (Tick > 1)
             {
                 GameObject bullet = GameObject.Instantiate(m_Bullet);
-                bullet.transform.position = transform.position;
-                bullet.transform.rotation = transform.rotation;
+                bullet.transform.position = transform.position;//총알의 위치를 스포너 위치로 옮긴다
+                bullet.transform.rotation = transform.rotation;//
 
                 Tick = 0;
             }

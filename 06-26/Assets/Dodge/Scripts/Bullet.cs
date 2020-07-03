@@ -13,11 +13,16 @@ public class Bullet : MonoBehaviour
 
         rigidbody.AddForce(transform.forward * 10) ;
         Tick += Time.deltaTime;
-        if (Tick > 3)
+        if (Tick > 4)
         {
             Destroy(gameObject);
             Tick = 0;
         }
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
 
     }
 
