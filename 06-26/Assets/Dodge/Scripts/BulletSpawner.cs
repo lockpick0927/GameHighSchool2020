@@ -4,41 +4,48 @@ using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Transform m_PlayerTransfrom;
+    //삭제
+    //public Transform m_PlayerTransform;
 
     public GameObject m_Bullet;
 
-    public float Tick = 0f;
     public float m_RotationSpeed = 60f;
+    public float m_AttackInterval = 1f;
+    private float m_AttackCooltime = 0f;
 
+    // Update is called once per frame
     void Update()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        //공격 선쿨타임 계산
+        m_AttackCooltime += Time.deltaTime;
+        if (m_AttackCooltime >= m_AttackInterval)
         {
-
-            Tick += Time.deltaTime;
-            if (Tick > 1)
-            {
-                GameObject bullet = GameObject.Instantiate(m_Bullet);
-                bullet.transform.position = transform.position;//총알의 위치를 스포너 위치로 옮긴다
-                bullet.transform.rotation = transform.rotation;//
-
-                Tick = 0;
-            }
-
+            //총알 생성
+            GameObject bullet = GameObject.Instantiate(m_Bullet);
+            bullet.transform.position = transform.position;
+            bullet.transform.rotation = transform.rotation;
             
-            Vector3 attackPoint = player.transform.position;
-            attackPoint.y = transform.position.y;
-            transform.LookAt(attackPoint);
+            //여기
+            var b = bullet.GetComponent<Bullet>();
+            b.m_Velocity = transform.forward;
+
+            //공격 선쿨타임 초기화
+            m_AttackCooltime = 0;
+        }
+
+        //GameObject.Find("Player"); //게임오브젝트의 이름
+        GameObject player = GameObject.FindGameObjectWithTag("Player"); //Player
+        //GameObject.FindObjectOfType<PlayerController>();
+
+        //GameObject.FindGameObjectsWithTag("Player"); // 모든 Player
+        //GameObject.FindObjectsOfType<PlayerController>(); // 모든 PlayerController 검색
+
+        //transform.Rotate(0, m_RotationSpeed * Time.deltaTime, 0);
+        if(player != null)
+        {
+            Vector3 attacketPoint = player.transform.position;
+            attacketPoint.y = transform.position.y;
+            transform.LookAt(attacketPoint);
         }
     }
-
 }
-//GameObject.Find("게임오브젝트의 이름");
-//GameObject player = GameObject.FindGameObjectWithTag("Player");
-// GameObject.FindObjectOfType<PlayerController>();
-
-//GameObject.FindGameObjectsWithTag("모든 태그");
-//GameObject.FindSceneObjectsOfType<PlayerController>(); 모든 PlayerController 검색
