@@ -5,7 +5,6 @@ using UnityEngine;
 public class Scroll_Object : MonoBehaviour
 {
     public float m_Speed = 5f;
-
     // Update is called once per frame
     void Update()
     {

@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows.WebCam;
 
 public class Player_Controller : MonoBehaviour
 {
     public Animator m_Animator;
     public AudioSource m_AudioSource;
-
+    public Rigidbody2D m_rigidbody;
     public AudioClip m_jump;
     public AudioClip m_die;
 
     public bool m_IsGround = false;
     public bool m_Dead = false;
     public float m_Speed = 50f;
+    public int JumpCount = 0;
 
     // Update is called once per frame
     void Update()
@@ -20,18 +22,16 @@ public class Player_Controller : MonoBehaviour
         if (m_Dead) return;
         m_Animator.SetBool("IsGround", m_IsGround);
 
-        Rigidbody2D rigidbody = /*gameObject.*/GetComponent<Rigidbody2D>();
-        GameManager.Instance.OnAddScore();
-        float xAxis = Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
 
-        rigidbody.AddForce(new Vector2(xAxis, yAxis) * m_Speed);
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            float J_Axis = Input.GetAxis("Jump");
-            if (m_IsGround == true)
+            if (JumpCount < 2)
             {
-                rigidbody.AddForce(new Vector2(0, J_Axis) * 300f);
+                Debug.Log("입력");
+                m_rigidbody.velocity = Vector2.zero;
+                m_rigidbody.AddForce(Vector2.up * 400);
+                JumpCount++;
+
                 m_AudioSource.clip = m_jump;
                 m_AudioSource.Play();
             }
@@ -44,8 +44,9 @@ public class Player_Controller : MonoBehaviour
         if(collision.collider.tag == "Ground")
         {
             m_IsGround = true;
+            JumpCount = 0;
         }
-        if(collision.collider.tag == "DeathZone")
+        if (collision.collider.tag == "DeathZone")
         {
             m_Dead = true;
             m_Animator.SetBool("IsDead", m_Dead);
