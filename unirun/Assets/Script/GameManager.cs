@@ -26,12 +26,15 @@ public class GameManager : MonoBehaviour
     
     private void Update()
     {
-        if(m_IsGameOver && Input.GetKeyDown(KeyCode.R))
+        
+    }
+    public void Restart()
+    {
+        if (m_IsGameOver)
         {
             SceneManager.LoadScene("Level_UniRun");
         }
     }
-
 
     public void OnPlayerDead()
     {

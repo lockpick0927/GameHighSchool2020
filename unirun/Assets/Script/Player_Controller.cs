@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows.WebCam;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class Player_Controller : MonoBehaviour
     public int JumpCount = 0;
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (m_Dead) return;
         m_Animator.SetBool("IsGround", m_IsGround);
@@ -25,20 +24,23 @@ public class Player_Controller : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (JumpCount < 2)
-            {
-                Debug.Log("입력");
-                m_rigidbody.velocity = Vector2.zero;
-                m_rigidbody.AddForce(Vector2.up * 400);
-                JumpCount++;
-
-                m_AudioSource.clip = m_jump;
-                m_AudioSource.Play();
-            }
+            Jumps();
         }
         //m_Animator.SetBool("IsDead", m_Dead);
     }
+    public void Jumps()
+    {
+        if (JumpCount < 2 && !m_Dead)
+        {
+            Debug.Log("입력");
+            m_rigidbody.velocity = Vector2.zero;
+            m_rigidbody.AddForce(Vector2.up * 400);
+            JumpCount++;
 
+            m_AudioSource.clip = m_jump;
+            m_AudioSource.Play();
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.collider.tag == "Ground")
