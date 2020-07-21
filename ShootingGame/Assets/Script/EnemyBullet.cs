@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
-    public float m_Speed = 3f;
+    public float m_Speed = 10f;
 
     // Update is called once per frame
     void Update()
     {
         Vector3 movement = transform.up * m_Speed * Time.deltaTime;
 
-        transform.position += movement;
+        transform.position -= movement;
 
-        if(transform.position.y > 17f)
+        if (transform.position.y < -17f)
         {
             Destroy(gameObject);
         }

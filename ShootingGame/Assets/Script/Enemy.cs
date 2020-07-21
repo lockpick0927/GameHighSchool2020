@@ -2,29 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipController : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public GameObject FireBall;
+    public Transform[] m_FireMuzzles;
+    public Animator m_Animator;
+
+    public bool m_IsRun = false;
+    public bool m_Dead = false;
 
     public float m_Speed = 2f;
     public float m_AttackCooltime = 0f;
-    public float m_AttackInterval = 0.5f;
+    public float m_AttackInterval = 1.5f;
 
-    public Transform[] m_FireMuzzles;
-
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        Rigidbody2D rigidbody = /*gameObject.*/GetComponent<Rigidbody2D>();
-        float xAxis = Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
-
         // transform.position.x = xAxis;
-        transform.position += new Vector3(xAxis, yAxis, 0) * m_Speed * Time.deltaTime;
-        //rigidbody.AddForce(new Vector2(xAxis, yAxis) * m_Speed * Time.deltaTime);
+        transform.position -= new Vector3(0, 3, 0) * m_Speed * Time.deltaTime;
+        if (transform.position.y > 17f)
+        {
+            Destroy(gameObject);
+        }
 
         m_AttackCooltime += Time.deltaTime;
+        BulletSpawn();
+    }
 
-        if (Input.GetKey(KeyCode.Space) && m_AttackCooltime >= m_AttackInterval)
+    void BulletSpawn()
+    {
+        if (m_AttackCooltime >= m_AttackInterval)
         {
             foreach (var FireMuzzle in m_FireMuzzles)
             {
