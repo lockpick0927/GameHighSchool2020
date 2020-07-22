@@ -14,7 +14,7 @@ public class ShipController : MonoBehaviour
 
     private void Update()
     {
-        Rigidbody2D rigidbody = /*gameObject.*/GetComponent<Rigidbody2D>();
+        //Rigidbody2D rigidbody = /*gameObject.*/GetComponent<Rigidbody2D>();
         float xAxis = Input.GetAxis("Horizontal");
         float yAxis = Input.GetAxis("Vertical");
 
