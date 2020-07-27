@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float m_Speed = 3f;
+    public float m_Speed = 25f;
+
 
     // Update is called once per frame
     void Update()
@@ -13,7 +14,7 @@ public class Bullet : MonoBehaviour
 
         transform.position += movement;
 
-        if(transform.position.y > 17f)
+        if(transform.position.y > 33f)
         {
             Destroy(gameObject);
         }
@@ -21,6 +22,9 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
+        if (collision.tag == "Enemy")
+        {
+            Destroy(gameObject);
+        }
     }
 }

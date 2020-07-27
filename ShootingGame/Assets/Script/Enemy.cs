@@ -10,9 +10,9 @@ public class Enemy : MonoBehaviour
 
     public bool m_IsDead = false;
 
-    public float m_Speed = 2f;
+    public float m_Speed = 10f;
     public float m_AttackCooltime = 0f;
-    public float m_AttackInterval = 1.5f;
+    public float m_AttackInterval = 0.85f;
 
     private void Awake()
     {
@@ -23,9 +23,9 @@ public class Enemy : MonoBehaviour
     {
         // transform.position.x = xAxis;
         if (m_IsDead) return;
-
-        transform.position -= new Vector3(0, 3, 0) * m_Speed * Time.deltaTime;
-        if (transform.position.y < -17f)
+        Vector3 Move = transform.up * m_Speed * Time.deltaTime;
+        transform.position -= Move;
+        if (transform.position.y < -33f)
         {
             Destroy(gameObject);
         }
@@ -53,7 +53,8 @@ public class Enemy : MonoBehaviour
         if (collision.tag == "Bullet" || collision.tag == "Player")
         {
             m_IsDead = true;
-             m_Animator.SetBool("IsDead", m_IsDead);
+            GameManager.instance.AddScore();
+            m_Animator.SetBool("IsDead", m_IsDead);
         }
 
     }

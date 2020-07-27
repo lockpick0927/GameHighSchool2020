@@ -237,9 +237,9 @@ MonoBehaviour:
   - {fileID: 7593224988944442486}
   m_Animator: {fileID: 7593224989464591850}
   m_IsDead: 0
-  m_Speed: 2
+  m_Speed: 10
   m_AttackCooltime: 0
-  m_AttackInterval: 1.5
+  m_AttackInterval: 0.85
 --- !u!61 &7593224989464591846
 BoxCollider2D:
   m_ObjectHideFlags: 0

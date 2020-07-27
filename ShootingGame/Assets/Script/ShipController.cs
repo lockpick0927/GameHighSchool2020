@@ -6,7 +6,7 @@ public class ShipController : MonoBehaviour
 {
     public GameObject FireBall;
 
-    public float m_Speed = 2f;
+    public float m_Speed = 25f;
     public float m_AttackCooltime = 0f;
     public float m_AttackInterval = 0.5f;
 

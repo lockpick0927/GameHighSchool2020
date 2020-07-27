@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public float m_Speed = 10f;
+    public float m_Speed = 13f;
 
     // Update is called once per frame
     void Update()
@@ -13,7 +13,7 @@ public class EnemyBullet : MonoBehaviour
 
         transform.position -= movement;
 
-        if (transform.position.y < -17f)
+        if (transform.position.y < -33f)
         {
             Destroy(gameObject);
         }

@@ -174,7 +174,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -229,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4735194838654956, guid: ceb2e69d6fcbbcf4eb36a02462f60ce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -9.18
       objectReference: {fileID: 0}
     - target: {fileID: 4735194838654956, guid: ceb2e69d6fcbbcf4eb36a02462f60ce6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -331,6 +331,7 @@ MonoBehaviour:
   m_FireMuzzles:
   - {fileID: 998792109}
   - {fileID: 1419997517}
+  - {fileID: 1387308411}
 --- !u!95 &1044992101
 Animator:
   serializedVersion: 3
@@ -376,6 +377,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1387308410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1387308411}
+  m_Layer: 0
+  m_Name: FireMuzzleC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1387308411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387308410}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.79, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1044992099}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1419997516
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,8 +481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Enemy: {fileID: 7593224989464591844, guid: 5f85847f92626784f9f66953e003910c, type: 3}
-  m_MinX: -17
-  m_MaxX: 17
+  m_MinX: -22
+  m_MaxX: 22
   m_MinDelay: 1.1
   m_MaxDelay: 2.3
   m_SpawnDelay: 0
