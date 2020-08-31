@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
 
     public float m_XAxisSpeed = 5f;
+    public float m_YAxisSpeed = 5f;
     public float m_YJumpPower = 500f;
 
     public bool Climp = false;
-    public float tmpg;
+    public bool Dead = false;
+    public bool FallDown = false;
 
     public int m_JumpCount = 0;
 
@@ -22,49 +24,54 @@ public class PlayerController : MonoBehaviour
 
     protected void Update()
     {
-        float xAxis = Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
-
-        Vector2 velocity = m_Rigidbody2D.velocity;
-        velocity.x = xAxis * m_XAxisSpeed;
-        m_Rigidbody2D.velocity = velocity;
-
-        if (xAxis > 0)
-            transform.localScale = new Vector3(1, 1, 1);
-        else if (xAxis < 0)
-            transform.localScale = new Vector3(-1, 1, 1);
-        
-        var animator = GetComponent<Animator>();
-
-        if (Input.GetKeyDown(KeyCode.UpArrow) && m_JumpCount <= 0 && Climp == false)
+        if (!Dead)
         {
-            m_Rigidbody2D.AddForce(Vector3.up
-                * m_YJumpPower);
+            float xAxis = Input.GetAxis("Horizontal");
+            float yAxis = Input.GetAxis("Vertical");
 
-            m_JumpCount++;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.UpArrow) && Climp)
-        {
-            m_Rigidbody2D.AddForce(Vector3.up);
-        }
+            Vector2 velocity = m_Rigidbody2D.velocity;
+            velocity.x = xAxis * m_XAxisSpeed;
+            if (Climp)
+            {
+                velocity.y = yAxis * m_YAxisSpeed;
+            }
+            m_Rigidbody2D.velocity = velocity;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && Climp)
-        {
-            m_Rigidbody2D.AddForce(Vector3.down);
-        }
+            if (velocity.y < -0.1)
+            {
+                FallDown = true;
+            }
+            else
+            {
+                FallDown = false;
+            }
+            if (!Climp)
+            {
+                var animator = GetComponent<Animator>();
+                animator.SetFloat("VelocityX", Mathf.Abs(xAxis));
+                animator.SetFloat("VelocityY", velocity.y);
+                if (velocity.y < -20) Dead = true;
+            }
 
-        if(!Climp)
-        {
-            animator.SetFloat("VelocityY", velocity.y);
-        }
+            if (xAxis > 0)
+                transform.localScale = new Vector3(1, 1, 1);
+            else if (xAxis < 0)
+                transform.localScale = new Vector3(-1, 1, 1);
 
+
+            if (Input.GetKeyDown(KeyCode.UpArrow) && m_JumpCount <= 0 && Climp == false)
+            {
+                m_Rigidbody2D.AddForce(Vector3.up
+                    * m_YJumpPower);
+
+                m_JumpCount++;
+            }
+        }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("엔터충돌");
         foreach (ContactPoint2D contact in collision.contacts)
         {
             Debug.DrawRay(contact.point, contact.normal, Color.white);
@@ -95,10 +102,11 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.tag == "Ladder" && Input.GetKeyDown(KeyCode.Space))
         {
-            if (!Climp)
+
+            if (!Climp && !FallDown)
             {
                 Climp = true;
-                m_Rigidbody2D.gravityScale = 0f;
+                m_Rigidbody2D.gravityScale = 0.1f;
                 var animators = GetComponent<Animator>();
                 animators.SetBool("Climp", true);
             }
