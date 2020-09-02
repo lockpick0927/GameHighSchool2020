@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
 
     public float m_XAxisSpeed = 5f;
-    public float m_YAxisSpeed = 5f;
+    public float m_ClimpSpeed = 3f;
     public float m_YJumpPower = 500f;
 
     public bool Climp = false;
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
             velocity.x = xAxis * m_XAxisSpeed;
             if (Climp)
             {
-                velocity.y = yAxis * m_YAxisSpeed;
+                velocity.y = yAxis * m_ClimpSpeed;
             }
             m_Rigidbody2D.velocity = velocity;
 
@@ -103,13 +103,15 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "Ladder" && Input.GetKeyDown(KeyCode.Space))
         {
 
-            if (!Climp && !FallDown)
+            if (!Climp)
             {
                 Climp = true;
-                m_Rigidbody2D.gravityScale = 0.1f;
+                m_Rigidbody2D.gravityScale = 0.0f;
+                // m_Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY;
                 var animators = GetComponent<Animator>();
                 animators.SetBool("Climp", true);
             }
+
         }
     }
 
