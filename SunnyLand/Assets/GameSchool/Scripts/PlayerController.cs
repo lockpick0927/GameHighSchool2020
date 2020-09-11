@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!Dead)
         {
+            var animator = GetComponent<Animator>();
+
             float xAxis = Input.GetAxis("Horizontal");
             float yAxis = Input.GetAxis("Vertical");
 
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
             {
                 velocity.y = yAxis * m_ClimpSpeed;
             }
-            m_Rigidbody2D.velocity = velocity;
+                m_Rigidbody2D.velocity = velocity;
 
             if (velocity.y < -0.1)
             {
@@ -47,7 +49,6 @@ public class PlayerController : MonoBehaviour
             }
             if (!Climp)
             {
-                var animator = GetComponent<Animator>();
                 animator.SetFloat("VelocityX", Mathf.Abs(xAxis));
                 animator.SetFloat("VelocityY", velocity.y);
                 if (velocity.y < -20) Dead = true;
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
                 transform.localScale = new Vector3(-1, 1, 1);
 
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && m_JumpCount <= 0 && Climp == false)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && m_JumpCount <= 0 && !Climp)
             {
                 m_Rigidbody2D.AddForce(Vector3.up
                     * m_YJumpPower);
@@ -70,14 +71,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
             if (contact.normal.y > 0.5f)
             {
                 m_JumpCount = 0;
+
+                if (contact.rigidbody)
+                {
+                    var hp = contact.rigidbody.GetComponent<HPComponent>();
+                    if (hp)
+                    {
+                        hp.Death();
+                        m_Rigidbody2D.AddForce(Vector3.up * 270);
+                    }
+                }
             }
         }
 
@@ -113,7 +125,18 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Item")
+        {
+            collision.GetComponent<ItemComponent>().BeAte();//Items.BeAte();
+        }
+
+    }
+
 
 
 }
